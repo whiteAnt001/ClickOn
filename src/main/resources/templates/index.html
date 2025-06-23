@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Click On - 메인</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/include.css" />
+
+    <style>
+        /* Bootstrap 카드 이미지 높이 및 비율 유지 */
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        /* Bootstrap 카드 hover 시 약간 상승 효과 */
+        .card:hover {
+            transform: translateY(-6px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+
+<!-- 헤더 include -->
+<div th:replace="include/header :: header"></div>
+
+<!-- 메인 배너 -->
+<div class="banner"></div>
+
+<!-- 추천 상품 -->
+<section class="container my-5">
+    <h2 class="mb-4 fw-bold">🔥 추천 상품</h2>
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <img src="/images/A87.png" class="card-img-top" alt="제품1" />
+                <div class="card-body">
+                    <h5 class="card-title">기계식 키보드 A87</h5>
+                    <p class="card-text text-danger fw-bold">₩89,000</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <img src="/images/지슈라.png" class="card-img-top" alt="제품2" />
+                <div class="card-body">
+                    <h5 class="card-title">무선 마우스</h5>
+                    <p class="card-text text-danger fw-bold">₩189,000</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <img src="/images/product1.jpg" class="card-img-top" alt="제품3" />
+                <div class="card-body">
+                    <h5 class="card-title">키보드 스위치</h5>
+                    <p class="card-text text-danger fw-bold">₩39,000</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col" th:each="item : ${items}">
+            <div class="card h-100 shadow-sm">
+                <img th:src="@{'/images/' + ${item.imageName}}" class="card-img-top" th:alt="${item.name}" />
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${item.name}">상품명</h5>
+                    <p class="card-text text-danger fw-bold" th:text="'₩' + ${item.price}">가격</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 푸터 include -->
+<div th:replace="include/footer :: footer"></div>
+
+</body>
+</html>
