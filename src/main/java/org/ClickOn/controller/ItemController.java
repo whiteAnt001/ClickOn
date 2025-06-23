@@ -6,24 +6,18 @@ import org.ClickOn.service.ItemService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 @RequiredArgsConstructor
-public class MainContoller {
-
+public class ItemController {
     private final ItemService itemService;
 
-    @GetMapping("/")
-    public String main(Model model) {
-        List<Items> items = itemService.findAllItems();
-        model.addAttribute("items", items);
-        return "index";
-    }
-    // 키보드 카테고리
-    @GetMapping("/keyboard")
-    public String keyboard() {
-        return "category";
+    // 아이템 상세
+    @GetMapping("/items/{id}")
+    public String showItem(@PathVariable Long id, Model model) {
+        Items item = itemService.findItemById(id);
+        model.addAttribute("item", item);
+        return "item/itemDetail";
     }
 }

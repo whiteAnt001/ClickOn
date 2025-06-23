@@ -65,8 +65,8 @@
                 </div>
             </div>
         </div>
-
         <div class="col" th:each="item : ${items}">
+            <a th:href="@{'/items/' + ${item.idx}}" style="text-decoration: none; color: inherit;">
             <div class="card h-100 shadow-sm">
                 <img th:src="@{'/images/' + ${item.imageName}}" class="card-img-top" th:alt="${item.name}" />
                 <div class="card-body">
@@ -74,6 +74,7 @@
                     <p class="card-text text-danger fw-bold" th:text="'₩' + ${item.price}">가격</p>
                 </div>
             </div>
+            </a>
         </div>
     </div>
 </section>
