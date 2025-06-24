@@ -22,4 +22,5 @@ public class ItemService {
         return itemsRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 상품이 존재하지 않습니다. id =" + id));
     }
+    
 }

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title th:text="${items[0].category} + ' 상품 목록'">카테고리 상품 목록</title>
+    <th:block th:replace="include/bootstrap :: bootstrap"/>
+    <link rel="stylesheet" href="/css/include.css" />
+
+    <style>
+        /* Bootstrap 카드 이미지 높이 및 비율 유지 */
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        /* Bootstrap 카드 hover 시 약간 상승 효과 */
+        .card:hover {
+            transform: translateY(-6px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+
+<!-- 헤더 include -->
+<div th:replace="include/header :: header"></div>
+
+<!-- 카테고리 타이틀 -->
+<section class="container my-5">
+    <h2 class="mb-4 fw-bold" th:text="${items[0].category} + ' 카테고리'">카테고리명</h2>
+
+    <!-- 상품 목록 -->
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        <div class="col" th:each="item : ${items}">
+            <a th:href="@{'/items/' + ${item.idx}}" style="text-decoration: none; color: inherit;">
+                <div class="card h-100 shadow-sm">
+                    <img th:src="@{'/images/' + ${item.imageName}}" class="card-img-top" th:alt="${item.name}" />
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${item.name}">상품명</h5>
+                        <p class="card-text text-danger fw-bold" th:text="${#numbers.formatInteger(item.price, 3, 'COMMA')} + '원'">가격</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- 푸터 include -->
+<div th:replace="include/footer :: footer"></div>
+
+</body>
+</html>

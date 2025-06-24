@@ -33,7 +33,6 @@ public class AdminItemService {
         item.setSoldOut(dto.getSoldOut() != null ? dto.getSoldOut() : "N"); // 솔드아웃에 값이 따로 없으면 품절아님(N)
         item.setDiscount(dto.getDiscount());
         item.setView(0L);
-        // 등록일 포멧팅
 
         //이미지 저장
         MultipartFile file = dto.getImageFile();

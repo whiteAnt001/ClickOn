@@ -30,14 +30,6 @@ public class AdminItemApiController {
             adminItemService.saveItem(dto);
             return ResponseEntity.ok("등록 성공");
         } catch (Exception e) {
-            System.out.println("name: " + dto.getName());
-            System.out.println("price: " + dto.getPrice());
-            System.out.println("file name: " + file.getOriginalFilename());
-            System.out.println("date : " + dto.getCategory());
-            System.out.println("할인률 : " + dto.getDiscount());
-            System.out.println("상세 : " + dto.getDescription());
-            System.out.println("재고 : " + dto.getStock());
-            e.printStackTrace();
             return ResponseEntity.status(500).body("서버 오류: " + e.getMessage());
         }
     }

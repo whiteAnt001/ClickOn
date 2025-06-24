@@ -1,0 +1,54 @@
+body {
+    font-family: 'Pretendard', sans-serif;
+    background-color: #f8f9fa;
+}
+.product-detail {
+    max-width: 900px;
+    margin: 50px auto;
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+.product-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+}
+.product-info {
+    padding: 30px;
+}
+.product-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+.product-price {
+    font-size: 22px;
+    color: #e94e4e;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+.product-desc {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 30px;
+}
+.btn-cart {
+    background-color: #4A90E2;
+    border: none;
+}
+.btn-cart:hover {
+    background-color: #357ABD;
+}
+.tab-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+}
+.star-rating {
+    direction: rtl;
+    font-size: 1.5rem;
+    display: inline-flex;
+    gap: 4px;
+}
