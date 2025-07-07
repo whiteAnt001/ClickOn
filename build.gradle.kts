@@ -18,6 +18,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web") // 웹용
     implementation("org.springframework.boot:spring-boot-starter-data-jpa") // JPA
     implementation("org.springframework.boot:spring-boot-starter-validation") // 검증
+    implementation("org.springframework.boot:spring-boot-starter-security")
     runtimeOnly("com.h2database:h2") // h2DB
 
     // Lombok 의존성
@@ -26,6 +27,11 @@ dependencies {
 
     // Thymeleaf 의존성
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+
+    // JWT의존성
+    implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")

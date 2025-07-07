@@ -24,6 +24,7 @@ public class MainContoller {
         model.addAttribute("items", items);
         return "index";
     }
+
     // 키보드 카테고리
     @GetMapping("/items/category/keyboard")
     public String keyboard(Model model) {
@@ -45,6 +46,7 @@ public class MainContoller {
         model.addAttribute("items", items);
         return "item/category";
     }
+
 //    // 악세사리 카테고리
 //    @GetMapping("/items/category/keyboard")
 //    public String acce(Model model) {

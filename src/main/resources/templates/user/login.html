@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>로그인 - Click On</title>
+  <link rel="stylesheet" href="/css/auth.css" />
+</head>
+<body>
+<div class="auth-container">
+  <h2>로그인</h2>
+  <form id="loginForm">
+    <label for="email">계정</label>
+    <input type="text" id="email" name="email" required />
+
+    <label for="password">비밀번호</label>
+    <input type="password" id="password" name="password" required />
+
+    <button type="submit">로그인</button>
+  </form>
+
+  <div class="social-login">
+    <p>또는 소셜 계정으로 로그인</p>
+    <button type="button" onclick="location.href='/oauth2/authorization/google'">Google</button>
+    <button type="button" onclick="location.href='/oauth2/authorization/kakao'">Kakao</button>
+    <button type="button" onclick="location.href='/oauth2/authorization/naver'">Naver</button>
+  </div>
+
+  <p class="text-center mt-3" style="font-size: 0.9rem;">
+    아직 회원이 아니신가요? <a th:href="@{/register}">회원가입</a>
+  </p>
+</div>
+</body>
+<script src="/js/auth.js"></script>
+</html>
