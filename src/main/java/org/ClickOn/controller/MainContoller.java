@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.ClickOn.entity.Items;
 import org.ClickOn.repository.ItemsRepository;
 import org.ClickOn.service.ItemService;
+import org.ClickOn.util.JwtUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,12 +18,22 @@ public class MainContoller {
 
     private final ItemService itemService;
     private final ItemsRepository itemsRepository;
+    private final JwtUtil jwtUtil;
 
     @GetMapping("/")
     public String main(Model model) {
-        List<Items> items = itemService.findAllItems();
-        model.addAttribute("items", items);
-        return "index";
+        try{
+            List<Items> items = itemService.findAllItems();
+            model.addAttribute("items", items);
+
+            //쿠키에서 엑세스 토큰 가져오기
+            String token = jwtUtil.generateAccessToken()
+            return "index";
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("errorMessage", "상품 조회 중 오류 발생");
+            return "error";
+        }
     }
 
     // 키보드 카테고리

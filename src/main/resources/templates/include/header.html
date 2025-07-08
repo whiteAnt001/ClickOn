@@ -3,7 +3,13 @@
 <header th:fragment="header">
     <h1><a href="/" style="text-decoration: none; color: inherit;">ClickOn</a></h1>
     <nav>
-        <a href="/login">로그인 / 회원가입</a>
+        <div th:if="${#authentication.name != 'anonymousUser'}">
+            <span th:text="${#authentication.principal.name}">사용자이름</span>님 |
+            <a href="/logout">로그아웃</a>
+        </div>
+        <div th:if="${#authentication.name == 'anonymousUser'}">
+            <a href="/login">로그인 / 회원가입</a>
+        </div>
         <a href="/cart">장바구니</a>
     </nav>
 </header>
