@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>주소 추가하기</title>
+    <link rel="stylesheet" href="/css/mypage.css" />
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .form-container {
+            max-width: 560px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 36px 32px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        h2 {
+            font-size: 22px;
+            margin-bottom: 24px;
+            font-weight: 600;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="tel"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        .address-search {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .address-search input {
+            flex: 1;
+        }
+
+        .address-search button {
+            white-space: nowrap;
+            padding: 11px 16px;
+            background-color: #00aaff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .address-search button:hover {
+            background-color: #008dcc;
+        }
+
+        .form-group input[type="checkbox"] {
+            margin-right: 6px;
+        }
+
+        .btn-submit {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            cursor: pointer;
+            margin-right: 12px;
+        }
+
+        .btn-submit:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-cancel {
+            background: none;
+            border: none;
+            font-size: 14px;
+            text-decoration: underline;
+            color: #777;
+            cursor: pointer;
+        }
+
+        @media (max-width: 480px) {
+            .address-search {
+                flex-direction: column;
+            }
+
+            .address-search button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 헤더 include -->
+<div th:replace="include/header :: header"></div>
+
+<div class="form-container">
+    <h2>배송지 추가</h2>
+    <form th:action="@{/mypage/address/add}" method="post" th:object="${address}">
+        <div class="form-group">
+            <label for="recipient">수령인</label>
+            <input type="text" id="recipient" th:field="*{recipient}" placeholder="이름 입력" required />
+        </div>
+
+        <div class="form-group">
+            <label for="phone">연락처</label>
+            <input type="tel" id="phone" th:field="*{phone}" placeholder="010-1234-5678" required />
+        </div>
+
+        <div class="form-group">
+            <label for="address1">주소</label>
+            <div class="address-search">
+                <input type="hidden" id="postalCode" name="postalCode" placeholder="우편번호" readonly />
+                <input type="text" id="address1" name="address1" placeholder="도로명 주소" />
+                <button type="button" onclick="execDaumPostcode()">주소 검색</button>
+            </div>
+            <input type="text" id="address2" name="address2" placeholder="상세 주소" />
+        </div>
+
+        <div class="form-group">
+            <label>
+                <input type="checkbox" th:field="*{default}" />
+                기본 배송지로 설정
+            </label>
+        </div>
+
+        <button type="submit" class="btn-submit">저장</button>
+        <a th:href="@{/mypage}" class="btn-cancel">취소</a>
+    </form>
+</div>
+
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+    function execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                let addr = data.roadAddress ? data.roadAddress : data.jibunAddress;
+                document.getElementById('postalCode').value = data.zonecode;
+                document.getElementById('address1').value = addr;
+                document.getElementById('address2').focus();
+            }
+        }).open();
+    }
+</script>
+
+<!-- 푸터 include -->
+<div th:replace="include/footer :: footer"></div>
+
+</body>
+</html>

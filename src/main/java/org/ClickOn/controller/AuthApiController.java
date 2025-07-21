@@ -7,6 +7,7 @@ import org.ClickOn.dto.AuthDto;
 import org.ClickOn.entity.Users;
 import org.ClickOn.repository.UsersRepository;
 import org.ClickOn.service.AuthService;
+import org.ClickOn.util.JwtUtil;
 import org.apache.catalina.User;
 import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ public class AuthApiController {
     private final AuthService authService;
     private final UsersRepository usersRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     // 회원가입 API
     @PostMapping("/register")
@@ -49,17 +51,24 @@ public class AuthApiController {
         if(!user.isEnabled()) {
             return ResponseEntity.badRequest().body(Map.of("error", "이메일 인증을 완료해주세요."));
         }
-
-        String token = authService.login(authDto);
-
-        Cookie cookie = new Cookie("jwt", token);
-        cookie.setHttpOnly(true);
-        cookie.setSecure(true);
-        cookie.setPath("/");
-        cookie.setMaxAge(86400);
-
-        response.addCookie(cookie);
+        // 쿠키에 토큰을 저장
+        String accessToken = jwtUtil.generateAccessToken(user);
+        String refreshToken = jwtUtil.generateRefreshToken(user);
+        jwtUtil.addJwtToCookie(response, accessToken, "accessToken");
+        jwtUtil.addJwtToCookie(response, refreshToken, "refreshToken");
 
         return ResponseEntity.ok().body(Map.of("message", "로그인 성공!"));
+    }
+
+    // 로그아웃(쿠키삭제)
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletResponse response) {
+        Cookie cookie = new Cookie("refreshToken", null);
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+
+        return ResponseEntity.ok("로그아웃 완료");
     }
 }

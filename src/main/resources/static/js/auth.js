@@ -97,3 +97,30 @@ async function resendVerification(email) {
         console.error("재전송 실패:", e);
     }
 }
+
+// 로그아웃
+document.addEventListener("DOMContentLoaded", () => {
+    const logoutBtn = document.getElementById("logout-btn");
+
+    if (logoutBtn) {
+        logoutBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+
+            fetch("/api/logout", {
+                method: 'POST',
+                credentials: 'include'
+            }).then(response => {
+                if (!response.ok) {
+                    throw new Error("로그아웃 실패");
+                }
+                return;
+            }).then(() => {
+                alert("로그아웃 되었습니다.");
+                window.location.href = "/";
+            }).catch(error => {
+                console.error("에러 발생", error);
+                alert("로그아웃 중 문제가 발생했습니다.");
+            });
+        });
+    }
+});

@@ -5,6 +5,7 @@ import org.ClickOn.entity.Items;
 import org.ClickOn.repository.ItemsRepository;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 @Service

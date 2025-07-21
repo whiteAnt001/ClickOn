@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>장바구니</title>
+    <link rel="stylesheet" href="/css/include.css">
+    <link rel="stylesheet" href="/css/cart.css">
+    <script src="/js/cart.js"></script>
+</head>
+<body class="cart-page">
+<!-- 헤더 include -->
+<div th:replace="include/header :: header"></div>
+
+<div class="wrap">
+    <h1>장바구니</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>상품명</th>
+            <th>수량</th>
+            <th>총액</th>
+            <th>구매</th>
+            <th>삭제</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${cartItems}">
+            <td data-label="상품명" th:text="${item.itemName}"></td>
+            <td data-label="수량">
+                <input type="number" min="1" th:value="${item.quantity}" class="quantity-input" th:attr="data-cart-id=${item.cartId}"/>
+                <button class="btn btn-update" onclick="updateQuantity(this)">변경</button>
+            </td>
+            </td>
+            <td data-label="총액" th:text="${#numbers.formatInteger(item.price * item.quantity, 3, 'COMMA')} + '원'"></td>
+            <td data-label="구매">
+                <form th:action="@{/order}" method="post">
+                    <input type="hidden" name="itemId" th:value="${item.itemId}" />
+                    <input type="hidden" name="quantity" th:value="${item.quantity}" />
+                    <button class="btn btn-buy" type="submit">구매</button>
+                </form>
+            </td>
+            <td data-label="삭제">
+                <button class="btn btn-delete" onclick="deleteCartItem(this)" th:data-id="${item.cartId}">
+                    삭제
+                </button>
+            </td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="5" style="text-align:center; font-weight:bold;">
+                총합: <span th:text="${totalPrice}"></span>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+</div>
+
+<!-- 푸터 include -->
+<div th:replace="include/footer :: footer"></div>
+</body>
+</html>

@@ -34,6 +34,7 @@ public class JwtUtil {
     public String generateAccessToken(Users user) {
         return Jwts.builder()
                 .setSubject(user.getEmail())
+                .claim("idx", user.getIdx())
                 .claim("name", user.getName())
                 .claim("phone", user.getPhone())
                 .claim("role", user.getRole())
@@ -70,7 +71,7 @@ public class JwtUtil {
         cookie.setHttpOnly(true);  // JavaScript에서 접근할 수 없도록 설정
         cookie.setSecure(true);    // HTTPS 프로토콜에서만 전송되도록 설정
         cookie.setPath("/");       // 모든 경로에서 접근 가능
-        cookie.setMaxAge(900);   // 1일 동안 쿠키 유효 (초 단위)
+        cookie.setMaxAge(900);   // 15분 동안 쿠키 유효 (초 단위)
         response.addCookie(cookie);
     }
 
@@ -86,6 +87,15 @@ public class JwtUtil {
         }
         return null;
     }
+
+    // JWT에서 사용자 정보 추출
+    public Claims getClaims(String token) {
+        return Jwts.parser()
+                .setSigningKey(getSigningKey())
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
 
     // 토큰에서 이름 추출
     public Claims extractAllClaims(String token) {

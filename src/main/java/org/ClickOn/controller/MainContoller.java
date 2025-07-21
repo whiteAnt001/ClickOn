@@ -1,10 +1,18 @@
 package org.ClickOn.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.ClickOn.entity.Items;
+import org.ClickOn.entity.Users;
 import org.ClickOn.repository.ItemsRepository;
+import org.ClickOn.service.CartService;
 import org.ClickOn.service.ItemService;
+import org.ClickOn.service.UserService;
 import org.ClickOn.util.JwtUtil;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,16 +26,22 @@ public class MainContoller {
 
     private final ItemService itemService;
     private final ItemsRepository itemsRepository;
+    private final UserService userService;
     private final JwtUtil jwtUtil;
+    private final CartService cartService;
 
     @GetMapping("/")
     public String main(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         try{
             List<Items> items = itemService.findAllItems();
             model.addAttribute("items", items);
 
-            //쿠키에서 엑세스 토큰 가져오기
-            String token = jwtUtil.generateAccessToken()
+            if(auth != null && auth.getPrincipal() instanceof UserDetails) {
+                Users user = (Users) auth.getPrincipal();
+                model.addAttribute("name", user.getName());
+                model.addAttribute("role", user.getRole());
+            }
             return "index";
         } catch (Exception e) {
             e.printStackTrace();

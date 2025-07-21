@@ -34,7 +34,7 @@
 
             <!-- 장바구니 버튼 -->
             <div class="mt-4 d-flex gap-2">
-                <button class="btn btn-cart btn-lg flex-grow-1 text-center">🛒 장바구니</button>
+                <button id="addToCartBtn" class="btn btn-cart btn-lg flex-grow-1 text-center" th:data-item-id="${item.idx}" data-quantity="1">🛒 장바구니</button>
                 <button class="btn btn-cart btn-lg flex-grow-1 text-center">💳 바로구매</button>
             </div>
         </div>
